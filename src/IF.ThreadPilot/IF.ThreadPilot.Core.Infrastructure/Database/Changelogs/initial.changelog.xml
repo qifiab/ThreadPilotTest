@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+	<changeSet id="Create_Insurance_Type" author="MFLOOD1">
+		<createTable tableName="insuranceType" schemaName="public">
+			<column name="id" type="int">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="name" type="varchar(30)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="cost" type="int">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="Create_Customer" author="MFLOOD1">
+		<createTable tableName="customer" schemaName="public">
+			<column name="SSNo" type="nvarchar(13)">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="firstname" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="surname" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="Create_Vehicle" author="MFLOOD1">
+		<createTable tableName="vehicle" schemaName="public">
+			<column name="regNo" type="nvarchar(6)">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="brand" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="model" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="Owner" type="nvarchar(13)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="Create_CustomerInsurance" author="MFLOOD1">
+		<createTable tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" type="nvarchar(13)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="insuranceTypeId" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="identity" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey tableName="fact_customer_insurance" columnNames="SSNo,insuranceTypeId, identity" constraintName="pk_fact_customer_insurance"/>
+		<addForeignKeyConstraint
+            baseTableName="fact_customer_insurance"
+            baseColumnNames="insuranceTypeId"
+            constraintName="fk_fact_customer_insurance_insuranceTypeId"
+            referencedTableName="insuranceType"
+            referencedColumnNames="id"
+			baseTableSchemaName="public"
+            referencedTableSchemaName="public"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            validate="true"/>
+		
+		<addForeignKeyConstraint
+            baseTableName="fact_customer_insurance"
+            baseColumnNames="SSNo"
+            constraintName="fk_fact_customer_insurance_ssno"
+            referencedTableName="customer"
+            referencedColumnNames="SSNo"
+			baseTableSchemaName="public"
+            referencedTableSchemaName="public"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            validate="true"/>
+	</changeSet>
+
+</databaseChangeLog>

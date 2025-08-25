@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+	<changeSet author="MFLOOD1" id="Views" runAlways="true">
+		<validCheckSum>ANY</validCheckSum>
+		<createView replaceIfExists="true"
+				viewName="v_customer_insurance"
+				schemaName="public">
+			<![CDATA[
+			SELECT 
+				c."SSNo",
+				c."firstname",
+				c."surname",
+				fci."identity",
+				fci."insuranceTypeId",
+				it."name" AS insurance_name,
+				it."cost" AS insurance_cost,
+				SUM(it."cost") OVER (PARTITION BY c."SSNo") AS total_cost_per_customer
+			FROM fact_customer_insurance fci
+			JOIN customer c 
+				ON fci."SSNo" = c."SSNo"
+			JOIN "insuranceType" it 
+				ON it.id = fci."insuranceTypeId"
+			ORDER BY c."SSNo";
+            ]]>
+		</createView>
+	</changeSet>
+</databaseChangeLog>

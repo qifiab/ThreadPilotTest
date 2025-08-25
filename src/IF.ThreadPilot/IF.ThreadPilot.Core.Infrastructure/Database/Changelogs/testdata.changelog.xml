@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+	<changeSet id="Create_Data_Insurance_Type" author="MFLOOD1">
+		<insert tableName="insuranceType" schemaName="public">
+			<column name="id" value="1"/>
+			<column name="name" value="Pet insurance"/>
+			<column name="cost" value="10"/>
+		</insert>
+		<insert tableName="insuranceType" schemaName="public">
+			<column name="id" value="2"/>
+			<column name="name" value="Health insurance"/>
+			<column name="cost" value="20"/>
+		</insert>
+		<insert tableName="insuranceType" schemaName="public">
+			<column name="id" value="3"/>
+			<column name="name" value="Car insurance"/>
+			<column name="cost" value="30"/>
+		</insert>
+	</changeSet>
+	
+	<changeSet id="Create_Data_Customer" author="MFLOOD1">
+		<insert tableName="customer" schemaName="public">
+			<column name="SSNo" value="840903-1337"/>
+			<column name="firstname" value="Mikael"/>
+			<column name="surname" value="Flood"/>
+		</insert>
+		<insert tableName="customer" schemaName="public">
+			<column name="SSNo" value="750412-5678"/>
+			<column name="firstname" value="Anna"/>
+			<column name="surname" value="Johansson"/>
+		</insert>
+
+		<insert tableName="customer" schemaName="public">
+			<column name="SSNo" value="920215-9988"/>
+			<column name="firstname" value="Erik"/>
+			<column name="surname" value="Lindberg"/>
+		</insert>
+
+		<insert tableName="customer" schemaName="public">
+			<column name="SSNo" value="681105-3344"/>
+			<column name="firstname" value="Karin"/>
+			<column name="surname" value="Svensson"/>
+		</insert>
+
+		<insert tableName="customer" schemaName="public">
+			<column name="SSNo" value="990701-2233"/>
+			<column name="firstname" value="Johan"/>
+			<column name="surname" value="Andersson"/>
+		</insert>
+
+	</changeSet>
+	<changeSet id="Create_Data_Vehicle" author="MFLOOD1">
+		<!-- Mikael Flood: 1 car -->
+		<insert tableName="vehicle" schemaName="public">
+			<column name="regNo" value="ABC123"/>
+			<column name="brand" value="Volvo"/>
+			<column name="model" value="XC60"/>
+			<column name="Owner" value="840903-1337"/>
+		</insert>
+
+		<!-- Anna Johansson: 0 cars -->
+		<!-- (no vehicle insert for her) -->
+
+		<!-- Erik Lindberg: 2 cars -->
+		<insert tableName="vehicle" schemaName="public">
+			<column name="regNo" value="JKL901"/>
+			<column name="brand" value="Tesla"/>
+			<column name="model" value="Model 3"/>
+			<column name="Owner" value="920215-9988"/>
+		</insert>
+		<insert tableName="vehicle" schemaName="public">
+			<column name="regNo" value="LMN456"/>
+			<column name="brand" value="Toyota"/>
+			<column name="model" value="Corolla"/>
+			<column name="Owner" value="920215-9988"/>
+		</insert>
+
+		<!-- Karin Svensson: 1 car -->
+		<insert tableName="vehicle" schemaName="public">
+			<column name="regNo" value="MNO345"/>
+			<column name="brand" value="BMW"/>
+			<column name="model" value="X5"/>
+			<column name="Owner" value="681105-3344"/>
+		</insert>
+
+		<!-- Johan Andersson: 1 car -->
+		<insert tableName="vehicle" schemaName="public">
+			<column name="regNo" value="PQR789"/>
+			<column name="brand" value="Volkswagen"/>
+			<column name="model" value="Golf"/>
+			<column name="Owner" value="990701-2233"/>
+		</insert>
+		
+	</changeSet>
+	<changeSet id="Create_Data_Insurances" author="MFLOOD1">
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="840903-1337"/>
+			<column name="insuranceTypeId" value="3"/>
+			<!-- Car -->
+			<column name="identity" value="ABC123"/>
+			<!-- regNo -->
+		</insert>
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="840903-1337"/>
+			<column name="insuranceTypeId" value="2"/>
+			<!-- Health -->
+			<column name="identity" value="Health-840903"/>
+		</insert>
+
+		<!-- Anna Johansson: Pet (0 cars, so no Car insurance) -->
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="750412-5678"/>
+			<column name="insuranceTypeId" value="1"/>
+			<!-- Pet -->
+			<column name="identity" value="Pet-750412"/>
+		</insert>
+
+		<!-- Erik Lindberg: Health + 2 Cars -->
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="920215-9988"/>
+			<column name="insuranceTypeId" value="2"/>
+			<!-- Health -->
+			<column name="identity" value="Health-920215"/>
+		</insert>
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="920215-9988"/>
+			<column name="insuranceTypeId" value="3"/>
+			<!-- Car -->
+			<column name="identity" value="JKL901"/>
+			<!-- regNo -->
+		</insert>
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="920215-9988"/>
+			<column name="insuranceTypeId" value="3"/>
+			<!-- Car -->
+			<column name="identity" value="LMN456"/>
+			<!-- regNo -->
+		</insert>
+
+		<!-- Karin Svensson: Pet + Health + 1 Car -->
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="681105-3344"/>
+			<column name="insuranceTypeId" value="1"/>
+			<!-- Pet -->
+			<column name="identity" value="Pet-681105"/>
+		</insert>
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="681105-3344"/>
+			<column name="insuranceTypeId" value="2"/>
+			<!-- Health -->
+			<column name="identity" value="Health-681105"/>
+		</insert>
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="681105-3344"/>
+			<column name="insuranceTypeId" value="3"/>
+			<!-- Car -->
+			<column name="identity" value="MNO345"/>
+			<!-- regNo -->
+		</insert>
+
+		<!-- Johan Andersson: Car -->
+		<insert tableName="fact_customer_insurance" schemaName="public">
+			<column name="SSNo" value="990701-2233"/>
+			<column name="insuranceTypeId" value="3"/>
+			<!-- Car -->
+			<column name="identity" value="PQR789"/>
+			<!-- regNo -->
+		</insert>
+	</changeSet>
+</databaseChangeLog>
