@@ -2,52 +2,109 @@
 
 ## Prerequisites
 
-Docker desktop
-Java
-liquibase (https://www.liquibase.com/download-oss) both java and liquibase is included using the link
+Make sure you have the following installed:
 
-## Installation
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Java](https://www.java.com/download/)
+- [Liquibase](https://www.liquibase.com/download-oss) (includes both Java and Liquibase)
 
-create docker image for postgres database
+---
 
-> docker pull postgres
+## Installation & Setup
 
-initiate container for postgres
+### 1. Set up PostgreSQL with Docker
 
-> docker run --name thread-pilot-db -e POSTGRES_PASSWORD=threadpilotpwd -p 5432:5432 -d postgres
+Pull the PostgreSQL image:
+
+```bash
+docker pull postgres
+```
+
+Start a PostgreSQL container:
+
+```bash
+docker run --name thread-pilot-db -e POSTGRES_PASSWORD=threadpilotpwd -p 5432:5432 -d postgres
+```
+
+### 2. Apply Database Migrations
+
+Navigate to the `DevLiquibase` folder:
+
+```bash
+cd src/IF.ThreadPilot/IF.ThreadPilot.Core.Infrastructure/Database/DevLiquibase
+```
+
+Run Liquibase to update the schema:
+
+```bash
+liquibase update
+```
+
+### 3. Start the APIs
+
+Start both **Vehicle** and **Insurance** APIs either:
+
+- In **Visual Studio**
+- Or via the CLI:
+
+```bash
+dotnet run
+```
+
+#### Endpoints
+
+- Vehicle API → [https://localhost:7039/swagger](https://localhost:7039/swagger)
+- Insurance API → [https://localhost:7214/swagger](https://localhost:7214/swagger)
+
+---
 
 ## Architecture
 
-### General architecture
+### General Approach
 
-I went for clean architecture with a domain and infractructure projects. Together with a feature architecture for the webapplications
+The solution follows **Clean Architecture** principles:
 
-### Database first approach
+- **Domain** and **Infrastructure** layers are separated.
+- Web applications follow a **feature-based architecture** for maintainability.
 
-I decided to go for a Postgres relational database. However for this small assignment a Mongo db instance would have been egnuf
-I decided to go for database first approch since it might be better suited for BI soultions that might be build upon the application database.
-My approach gives developers full control over the database and it still enables the flecibility that can be found in Code first approach.
+### Database-First Strategy
 
-### Liquibase
+- **PostgreSQL** is used as the primary database.
+- A database-first approach was chosen for **BI (Business Intelligence)** readiness and tighter schema control.
+- This offers flexibility while giving developers full control over the database design.
 
-I descided to use Liquibase for versioning och the database schema. There are many similar tools but this one is one of the better ones in mny opinion.
+### Database Versioning (Liquibase)
 
-### Reverse Poco
+- **Liquibase** manages schema versioning and migrations.
+- Chosen for reliability and flexibility compared to other tools.
 
-Creates Poco entities form the database tables and gives you teh flexibility of code first
+### Reverse POCO
 
-### Error handling / validation
+- Generates **POCO entities** from the database tables.
+- Provides flexibility similar to **code-first** while leveraging a **database-first** workflow.
 
-I have previously workt with fluent validation and it has suited me well. However I saw that one of my packages that I use in this solution is marked as depricated and should not be used. But i did not have the time to read into all changes in the new package for this solution.
+### Validation
+
+- Uses **FluentValidation** for input validation.
+- One dependency is deprecated but not updated due to time constraints.
 
 ### Security
 
-I have not implemented any security when it comes to authentication and authorization since that would make it more complex for you to execute my solution.
+- No authentication/authorization implemented to keep setup simple.
+- In production, I would integrate **Azure Entra ID** with **roles/policies**.
+- Users would authenticate via **client/secret** or **Azure AD account**.
 
-If I would have implemented security I would have gone for Azure Entra solution with roles or policy depending on the requiments. The users should then need to apply for either a client/secret or a user in my Azure subscription
+---
 
-## Personal reflection
+## Personal Reflection
 
-I have been working for VCC with an application handeling car accidents that used alot of integrations bot twith the crached car and also integration to SOS and insurance companies in order to build more safe cars.
+- I previously worked at **VCC** on an application handling car accidents with integrations to vehicles, SOS services, and insurance companies.
+- The main challenge here was balancing **scalability** with **simplicity**.
+- **Performance testing** has not been done. Parallel calls to the Vehicle API may not be optimized.
+- The Vehicle API currently accepts **only one registration number at a time**, which may impact performance for customers with multiple vehicles.
+  - In production, I would consider **OData** or **GraphQL** with `expand` to fetch related entities efficiently.
+- The **database schema** works for demo purposes but is not production-optimized.
+- I did not have time to implement a CD pipeline with terraform or bicep for the IaC.
+- Many aspects could be further improved in a real-world implementation.
 
-The biggest cahllenge for me in this test was accually to find the time needed to complete it.
+---
