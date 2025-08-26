@@ -11,14 +11,13 @@ namespace IF.ThreadPilot.Core.Domain.Entities
     // v_customer_insurance
     public class VCustomerInsurance
     {
-        public string SsNo { get; set; } // SSNo (length: 13)
+        public string SsNo { get; set; } // SSNo (Primary key) (length: 13)
         public string Firstname { get; set; } // firstname (length: 50)
         public string Surname { get; set; } // surname (length: 50)
-        public string Identity { get; set; } // identity (length: 50)
+        public string Identity { get; set; } // identity (Primary key) (length: 50)
         public int? InsuranceTypeId { get; set; } // insuranceTypeId
         public string InsuranceName { get; set; } // insurance_name (length: 30)
         public int? InsuranceCost { get; set; } // insurance_cost
-        public long? TotalCostPerCustomer { get; set; } // total_cost_per_customer
     }
 
 }

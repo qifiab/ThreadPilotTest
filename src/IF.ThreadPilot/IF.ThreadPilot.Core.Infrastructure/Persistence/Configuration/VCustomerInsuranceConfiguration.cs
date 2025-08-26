@@ -12,17 +12,16 @@ namespace IF.ThreadPilot.Core.Infrastructure.Entities.Persistence.Data
     {
         public void Configure(EntityTypeBuilder<VCustomerInsurance> builder)
         {
-            builder.ToView("v_customer_insurance", "public");
-            builder.HasNoKey();
+            builder.ToTable("v_customer_insurance", "public");
+            builder.HasKey(x => new { x.SsNo, x.Identity });
 
-            builder.Property(x => x.SsNo).HasColumnName(@"SSNo").HasColumnType("character varying(13)").IsRequired(false).HasMaxLength(13);
+            builder.Property(x => x.SsNo).HasColumnName(@"SSNo").HasColumnType("character varying(13)").IsRequired().HasMaxLength(13).ValueGeneratedNever();
             builder.Property(x => x.Firstname).HasColumnName(@"firstname").HasColumnType("character varying(50)").IsRequired(false).HasMaxLength(50);
             builder.Property(x => x.Surname).HasColumnName(@"surname").HasColumnType("character varying(50)").IsRequired(false).HasMaxLength(50);
-            builder.Property(x => x.Identity).HasColumnName(@"identity").HasColumnType("character varying(50)").IsRequired(false).HasMaxLength(50);
+            builder.Property(x => x.Identity).HasColumnName(@"identity").HasColumnType("character varying(50)").IsRequired().HasMaxLength(50).ValueGeneratedNever();
             builder.Property(x => x.InsuranceTypeId).HasColumnName(@"insuranceTypeId").HasColumnType("integer").IsRequired(false);
             builder.Property(x => x.InsuranceName).HasColumnName(@"insurance_name").HasColumnType("character varying(30)").IsRequired(false).HasMaxLength(30);
             builder.Property(x => x.InsuranceCost).HasColumnName(@"insurance_cost").HasColumnType("integer").IsRequired(false);
-            builder.Property(x => x.TotalCostPerCustomer).HasColumnName(@"total_cost_per_customer").HasColumnType("bigint").IsRequired(false);
 
             InitializePartial(builder);
         }

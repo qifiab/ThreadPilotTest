@@ -13,8 +13,7 @@
 				fci."identity",
 				fci."insuranceTypeId",
 				it."name" AS insurance_name,
-				it."cost" AS insurance_cost,
-				SUM(it."cost") OVER (PARTITION BY c."SSNo") AS total_cost_per_customer
+				it."cost" AS insurance_cost
 			FROM fact_customer_insurance fci
 			JOIN customer c 
 				ON fci."SSNo" = c."SSNo"

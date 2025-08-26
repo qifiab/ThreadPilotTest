@@ -39,4 +39,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
+
+// Expose the implicitly defined Program class to the test project
+public partial class Program
+{ }

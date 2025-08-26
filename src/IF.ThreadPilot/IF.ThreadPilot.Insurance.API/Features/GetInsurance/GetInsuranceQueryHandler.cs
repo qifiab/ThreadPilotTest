@@ -41,10 +41,12 @@ namespace IF.ThreadPilot.Insurance.API.Features.GetInsurance
                             : null                     // others get no vehicle info
                     ))
                     .ToList();
+
+                var totalCost = insuranceDtos.Sum(i => i.cost);
                 return new InsuranceResponseDto(
                         result[0].Firstname,
                         result[0].Surname,
-                        result[0].TotalCostPerCustomer,
+                        totalCost,
                         insuranceDtos
                         );
             }
