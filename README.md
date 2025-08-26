@@ -98,7 +98,7 @@ The solution follows **Clean Architecture** principles:
 
 ## Personal Reflection
 
-- I previously worked at **VCC** on an application handling car accidents with integrations to vehicles, SOS services, and insurance companies.
+- I previously worked at **VCC** on an application that handled car accidents, integrating with vehicles, SOS services, and insurance companies. The project was complex, involving heavy computations and mathematical operations. To ensure good performance, we leveraged materialized views and other caching strategies, which significantly improved response times and system efficiency.
 - The main challenge here was balancing **scalability** with **simplicity**.
 - **Performance testing** has not been done. Parallel calls to the Vehicle API may not be optimized.
 - The Vehicle API currently accepts **only one registration number at a time**, which may impact performance for customers with multiple vehicles.
