@@ -48,13 +48,32 @@ Start both **Vehicle** and **Insurance** APIs either:
 - Or via the CLI:
 
 ```bash
-dotnet run
+cd src/IF.ThreadPilot
+dotnet run --project .\IF.ThreadPilot.Insurance.API\IF.ThreadPilot.Insurance.API.csproj
+dotnet run --project
 ```
 
 #### Endpoints
 
-- Vehicle API → [https://localhost:7039/swagger](https://localhost:7039/swagger)
-- Insurance API → [https://localhost:7214/swagger](https://localhost:7214/swagger)
+- Vehicle API → [http://localhost:5145/swagger](http://localhost:5145)
+- Insurance API → [http://localhost:5182/swagger](http://localhost:5182/swagger)
+
+#### Usable parameters
+
+- Vehicle API
+- ABC123
+- JKL901
+- LMN456
+- MNO345
+- PQR789
+
+-insurance API
+
+- 840903-1337
+- 750412-5678
+- 920215-9988
+- 681105-3344
+- 990701-2233
 
 ---
 
@@ -105,6 +124,12 @@ The solution follows **Clean Architecture** principles:
   - In production, I would consider **OData** or **GraphQL** with `expand` to fetch related entities efficiently.
 - The **database schema** works for demo purposes but is not production-optimized.
 - I did not have time to implement a CD pipeline with terraform or bicep for the IaC.
+- I did not implement an admin API which could have been usable to add customers and insurance items. However i did add testdata that can be used for testing.
 - Many aspects could be further improved in a real-world implementation.
+
+For other questions please do not hesitate to contact me
+
+Mikael Flood
+mikael.flood [at] qifi.se
 
 ---

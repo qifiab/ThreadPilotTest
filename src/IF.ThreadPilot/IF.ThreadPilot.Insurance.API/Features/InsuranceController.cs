@@ -1,5 +1,4 @@
-﻿using IF.ThreadPilot.Core.Infrastructure.Entities.Persistence.Data;
-using IF.ThreadPilot.Insurance.API.Features.GetInsurance;
+﻿using IF.ThreadPilot.Insurance.API.Features.GetInsurance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,7 @@ namespace IF.ThreadPilot.Insurance.API.Features
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InsuranceController(IThreadPilotDbContext ctx, IMediator mediator) : ControllerBase
+    public class InsuranceController(IMediator mediator) : ControllerBase
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
