@@ -50,7 +50,7 @@ Start both **Vehicle** and **Insurance** APIs either:
 ```bash
 cd src/IF.ThreadPilot
 dotnet run --project .\IF.ThreadPilot.Insurance.API\IF.ThreadPilot.Insurance.API.csproj
-dotnet run --project
+dotnet run --project .\IF.ThreadPilot.Vehicle.API\IF.ThreadPilot.Vehicle.API.csproj
 ```
 
 #### Endpoints
